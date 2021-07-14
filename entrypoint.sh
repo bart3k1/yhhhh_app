@@ -14,8 +14,8 @@ NGINX_WORKER_CONNECTIONS=${NGINX_WORKER_CONNECTIONS:-1024}
 # Get the listen port for Nginx, default to 80
 USE_LISTEN_PORT=${LISTEN_PORT:-80}
 
-if [ -f /app/nginx.conf ]; then
-    cp /app/nginx.conf /etc/nginx/nginx.conf
+if [ -f /app/app/nginx.conf ]; then
+    cp ./app/nginx.conf /etc/nginx/nginx.conf
 else
     content='user  nginx;\n'
     # Set the number of worker processes in Nginx
@@ -45,10 +45,12 @@ else
     printf "$content" > /etc/nginx/nginx.conf
 
     content_server='server {\n'
+    
     content_server=$content_server"    listen ${USE_LISTEN_PORT};\n"
     content_server=$content_server'    location / {\n'
+    content_server=$content_server'        uwsgi_pass 127.0.0.1:8080;\n'
     content_server=$content_server'        include uwsgi_params;\n'
-    content_server=$content_server'        uwsgi_pass unix:///tmp/uwsgi.sock;\n'
+    
     content_server=$content_server'    }\n'
     content_server=$content_server'}\n'
     # Save generated server /etc/nginx/conf.d/nginx.conf
@@ -61,10 +63,5 @@ else
     printf "" > /etc/nginx/conf.d/default.conf
 fi
 
-# For Alpine:
-# Explicitly add installed Python packages and uWSGI Python packages to PYTHONPATH
-# Otherwise uWSGI can't import Flask
-if [ -n "$ALPINEPYTHON" ] ; then
-    export PYTHONPATH=$PYTHONPATH:/usr/local/lib/$ALPINEPYTHON/site-packages:/usr/lib/$ALPINEPYTHON/site-packages
-fi
+
 exec "$@"

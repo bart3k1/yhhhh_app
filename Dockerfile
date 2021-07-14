@@ -53,7 +53,7 @@ ENV UWSGI_INI /app/uwsgi.ini
 # By default, Nginx listens on port 80.
 # To modify this, change LISTEN_PORT environment variable.
 # (in a Dockerfile or with an option for `docker run`)
-# ENV LISTEN_PORT 80
+ENV LISTEN_PORT 80
 
 
 COPY entrypoint.sh /entrypoint.sh
@@ -64,7 +64,7 @@ RUN chmod a+x /start.sh
 
 COPY . /app
 WORKDIR /app
-EXPOSE 80
+# EXPOSE 80
 
 # Run the start script, it will check for an /app/prestart.sh script (e.g. for migrations)
 # And then will start Supervisor, which in turn will start Nginx and uWSGI

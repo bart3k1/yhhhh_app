@@ -41,6 +41,8 @@ class SQLAlchemySessionManager:
 
 app = falcon.API(middleware=[Middleware()])
 
+# app2 = falcon.App()
+
 app1 = falcon.API(middleware=[
     SQLAlchemySessionManager(Session),
 ])
@@ -73,12 +75,15 @@ class GetList:
 
 app.add_route('/index',CollectionResource(db_engine))
 app.add_route('/get/{id}',SingleResource(db_engine))
+app1.add_route('/getd/{id}',SingleResource(db_engine))
+
 app.add_route('/update/{id}',SingleResource(db_engine))
 app.add_route('/delete/{id}',SingleResource(db_engine))
 app.add_route('/status',healthcheck)
 
 app.add_route('/indexs',GetList())
-app.add_route('/gets/{varid:int}',GetObjectInfo())
+# app2.add_route('/indexsd',GetList())
+# app2.add_route('/gets/{varid:int}',GetObjectInfo())
 # app.add_route('/updates/{varid}',ToDoResource(db_engine))
 # app.add_route('/deletes/{varid}',ToDoResource(db_engine))
 # app.add_route('/statuss',healthcheck)

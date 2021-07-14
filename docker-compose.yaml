@@ -9,7 +9,7 @@ services:
         volumes:
             - db-data:/var/lib/postgresql/data/ 
         ports:
-            - "5432:5432"
+            - "6666:5432"
     app:
         env_file: 
             - .env
@@ -19,7 +19,7 @@ services:
                 USER_ID: ${USER_ID:-0}
                 GROUP_ID: ${GROUP_ID:-0}
         ports:
-            - "80:80"
+            - "8080:8080"
         volumes:
             - .:/app
         depends_on:
