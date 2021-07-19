@@ -1,0 +1,6 @@
+alembic==1.6.5
+falcon==3.0.1
+psycopg2==2.9.1
+SQLAlchemy==1.4.21
+uWSGI==2.0.19.1
+

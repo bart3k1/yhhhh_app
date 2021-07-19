@@ -3,9 +3,9 @@ services:
     db:
         image: postgres
         environment:
-            - POSTGRES_DB=mydb
-            - POSTGRES_USER=myusr
-            - POSTGRES_PASSWORD=mypass
+            - POSTGRES_DB=${DB_NAME}
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASS}
         volumes:
             - db-data:/var/lib/postgresql/data/ 
         ports:
@@ -19,7 +19,7 @@ services:
                 USER_ID: ${USER_ID:-0}
                 GROUP_ID: ${GROUP_ID:-0}
         ports:
-            - "8080:8080"
+            - "80:80"
         volumes:
             - .:/app
         depends_on:
